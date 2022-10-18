@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-function Translate() {
+function Test() {
 //   useEffect(async () => {
     //   let encodedParams = new URLSearchParams();
     //   encodedParams.append("q", "Hello, world!");
@@ -33,7 +33,7 @@ function Translate() {
       "User-Agent": "Thunder Client (https://www.thunderclient.com)",
       "Content-Type": "application/x-www-form-urlencoded",
       "Accept-Encoding": "application/gzip",
-      "X-RapidAPI-Key": "Api-key",
+      "X-RapidAPI-Key": "760657d452msh0bf6b2affdba105p11c594jsnd33e6e2ed670",
       "X-RapidAPI-Host": "google-translate1.p.rapidapi.com",
     };
 
@@ -49,10 +49,7 @@ function Translate() {
     let response = axios.request(reqOptions);
    
 
-  return (
-  <div>
-    Test
-  </div>);
+  return <div>Test</div>;
 }
 
-export default Translate;
+export default Test;
