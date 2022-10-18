@@ -37,6 +37,7 @@ const Dictionary = () => {
         
         return (
        <div className="DisplayDictContent">
+        <h1 style={{textAlign:"center"}}>Info</h1>
           <ListItemText
           primary={item.definition}
           secondary={
@@ -48,6 +49,7 @@ const Dictionary = () => {
                 color="text.primary"
               >
               </Typography>
+              {<h3>UseCase</h3>?item.example:""}
               {item.example}
             </React.Fragment>
           }
