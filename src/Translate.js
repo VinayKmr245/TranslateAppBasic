@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { Theme, useTheme } from '@mui/material/styles';
-import OutlinedInput from '@mui/material/OutlinedInput';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
@@ -29,13 +27,13 @@ function Translate() {
       })
       .then((response) => {
           setdetectedLanguageKey(response.data[0].language)
+      }).catch((err)=>{
+        console.log(err)
       })
   }
   const translateText = () => {
       setResultText(inputText)
-
       getLanguageSource();
-
       let data = {
           q : inputText,
           source: detectLanguageKey,
@@ -44,8 +42,9 @@ function Translate() {
       axios.post(`https://libretranslate.de/translate`, data)
       .then((response) => {
           setResultText(response.data.translatedText)
+      }).catch((err)=>{
+        console.log(err)
       })
-      setInputText('')
   }
 
   const languageKey = (selectedLanguage) => {
@@ -56,14 +55,15 @@ function Translate() {
      axios.get(`https://libretranslate.de/languages`)
      .then((response) => {
       setLanguagesList(response.data)
-     })
-
+     }).catch((err)=>{
+      console.log(err)
+    })
      getLanguageSource()
-  }, [inputText])
+  }, [inputText,selectedLanguageKey])
 
   return (
   <div>
-     <div className="TranslateContainer">
+     <div className="TranslateContainer" maxWidth="sm">
       <TextField
         helperText=" "
         id="demo-helper-text-aligned-no-helper"
@@ -91,10 +91,15 @@ function Translate() {
           ))}
         </Select>
       </FormControl>
-      <Button variant="contained" color="success" onClick={translateText}>Search
+      <Button variant="contained"  onClick={translateText}
+      style = {{
+        backgroundColor : "rgb(138,43,226)"
+      }}
+      >Search
       </Button>
       <div className="result-text">
-        {resultText}  
+        <h1>Meaning : </h1>
+        <h1>{resultText}</h1> 
      </div>
   </div>
   </div>

@@ -1,18 +1,32 @@
-import React ,{useState} from "react";
+import React ,{useCallback, useState} from "react";
 import axios from "axios";
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
 const Synonym = () => {
     const [word, setWord] = useState("");
-var url="https://wordsapiv1.p.mashape.com/words/"+word+"/synonyms";
+    const [ans,setAns]=useState([])
+    const [header,setHeader]=useState("")
+var url=`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`
     const HandleSynonym = () => {
-        axios.get(url).then((response) => {
-            console.log(response);
+        axios.get(url)
+        .then((response) => {
+            const res = response.data
+            let meanings = []
+             res.map((item)=>{
+                    meanings = [...meanings,...item.meanings]
+             })
+             let synonyms  = []
+             meanings.map((items)=>{
+                    synonyms = [...synonyms, ...items.synonyms]
+             })
+             setAns(synonyms);
         }).catch((error) => {
             console.log(error);}
         );
+        setHeader("Synonyms :")
     };
+   
 return(
     <div className="SynonymContainer">
         <TextField
@@ -23,8 +37,23 @@ return(
             setWord(e.target.value);
           }}
       />
-        <Button variant="contained" color="success" onClick={HandleSynonym}>Search
+        <Button variant="contained" style = {{
+        backgroundColor : "rgb(138,43,226)"
+      }} onClick={HandleSynonym}>Search
       </Button>
+      <div className="result-text">
+        <h1>{header}</h1>
+        <ul>
+        {
+            ans.map((item)=>{
+                return <>
+                <li><h2>{item}</h2></li>
+                </>
+            })
+           
+        }
+        </ul>
+      </div>
     </div>
 );
 }
