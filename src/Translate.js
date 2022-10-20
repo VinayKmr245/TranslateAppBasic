@@ -21,6 +21,7 @@ function Translate() {
   const [selectedLanguageKey, setLanguageKey] = useState('')
   const [languagesList, setLanguagesList] = useState([])
   const [detectLanguageKey, setdetectedLanguageKey] = useState('')
+  const [header,setHeader]=useState("")
   const getLanguageSource = () => {
       axios.post(`https://libretranslate.de/detect`, {
           q: inputText
@@ -37,14 +38,16 @@ function Translate() {
       let data = {
           q : inputText,
           source: detectLanguageKey,
-          target: selectedLanguageKey
+          target: selectedLanguageKey,
       }
       axios.post(`https://libretranslate.de/translate`, data)
       .then((response) => {
           setResultText(response.data.translatedText)
+          console.log(response.data)
       }).catch((err)=>{
         console.log(err)
       })
+      setHeader("Meaning :")
   }
 
   const languageKey = (selectedLanguage) => {
@@ -55,10 +58,12 @@ function Translate() {
      axios.get(`https://libretranslate.de/languages`)
      .then((response) => {
       setLanguagesList(response.data)
+      // console.log(response.data)
      }).catch((err)=>{
       console.log(err)
     })
      getLanguageSource()
+     
   }, [inputText,selectedLanguageKey])
 
   return (
@@ -73,7 +78,7 @@ function Translate() {
           }}  
       />
       
-      <FormControl sx={{ m: 1, minWidth: 220 }}>
+      <FormControl sx={{ m: 1, minWidth: 220}}>
         <Select
           labelId="demo-multiple-name-label"
           id="demo-multiple-name"
@@ -93,12 +98,12 @@ function Translate() {
       </FormControl>
       <Button variant="contained"  onClick={translateText}
       style = {{
-        backgroundColor : "rgb(138,43,226)"
+        backgroundColor :"#3A5BA0"
       }}
       >Search
       </Button>
+      <h1>{header}</h1>
       <div className="result-text">
-        <h1>Meaning : </h1>
         <h1>{resultText}</h1> 
      </div>
   </div>

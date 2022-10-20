@@ -13,11 +13,15 @@ const Dictionary = () => {
   const [add, setAdd] = useState("");
   const [meaning, setMeaning] = useState([]);
   const [header,setHeader]=useState("")
-  const Meaning = async () => {
-    const { data } = await axios.get(url + add);
-    console.log(data);
-    setMeaning(data[0].meanings[0].definitions);
-    setHeader("Meanings")
+  const Meaning =  () => {
+     axios.get(url + add).then((data)=>{
+      console.log(data);
+      setMeaning(data.data[0].meanings[0].definitions);
+      setHeader("Meanings")
+    }).catch((err)=>{
+      setMeaning([{definition:"No meaning found"}])
+    })
+    
   };
 
   return (
@@ -25,14 +29,14 @@ const Dictionary = () => {
       <TextField
         helperText=" "
         id="demo-helper-text-aligned-no-helper"
-        label="Search Text"
+        label="Search"
         onChange={(e) => {
           setAdd(e.target.value);
         }}
       />
 
       <Button variant="contained" style = {{
-        backgroundColor : "rgb(138,43,226)"
+        backgroundColor : "#3A5BA0"
       }}onClick={Meaning}>
         Search
       </Button>
@@ -51,6 +55,7 @@ const Dictionary = () => {
             </div>
           );
         })}
+        {/* Add Audio Component if possible */}
       </div>
     </div>
   );
@@ -94,3 +99,4 @@ export default Dictionary;
                 //     {item.example}
                 //   </React.Fragment>
                 // }
+                
